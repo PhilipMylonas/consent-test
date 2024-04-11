@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>test</title>
+
+
+    <!-- ###################################################################################### -->
+
+    <!-- Google Tag Manager -->
+    <!-- type="text/plain" data-cookiecategory="Google Tag Manager" -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W6S2JD2X');
+    </script>
+
+    <!-- <script data-cookiecategory="Google Tag Manager"
+        src="https://www.googletagmanager.com/gtag/js?id=GTM-W6S2JD2X"></script>
+
+    <script data-cookiecategory="Google Tag Manager">
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "GTM-W6S2JD2X", {
+            cookieDomain: "none",
+        });
+
+        /**
+        gtag('consent', 'update', {
+            'analytics_storage': 'granted',
+            'ad_storage': 'granted',
+            'ad_personalization':'granted',
+            'ad_user_data': 'granted'
+          });
+          */
+    </script> -->
+
+
+</head>
+
+<script>
+    function printDatalayer() {
+        if (!window.dataLayer) {
+            console.log('NO DATA LAYER');
+            return
+        }
+
+        window.dataLayer
+            .filter(element => element[0] === 'consent')
+            .forEach((element, index) => {
+                console.log(`\n\n############ ${index} ###########`);
+                console.table(element[2])
+            });
+    }
+</script>
+<script>
+    function clearCookies() {
+        document.cookie.split(";").forEach(function (c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+    }
+</script>
+
+<script>
+    function getCookie(name) {
+        let cookieArr = document.cookie.split(";");
+        for (let i = 0; i < cookieArr.length; i++) {
+            let cookiePair = cookieArr[i].split("=");
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setInterval(function () {
+            let consentContainer = document.getElementById('consents')
+
+            var ccCookie = JSON.parse(getCookie('cc_cookie'))
+            let res = ""
+
+            if (!ccCookie || !ccCookie.categories.length) {
+                res = 'NONE'
+            } else {
+                ccCookie.categories.forEach((category, index) => {
+                    res += `${category}`
+                    if (index !== ccCookie.categories.length - 1) {
+                        res += ' --- '
+                    }
+                })
+            }
+            consentContainer.innerText = res
+        }, 2);
+
+    });
+</script>
+
+<body>
+
+    <h2>THIS IS A TEST</h2>
+
+    <h3>
+        Selected Consents: <span id="consents" style="color: rgb(44, 173, 180);">NONE</span>
+    </h3>
+
+    <div style="margin-top: 30px;">
+        <a href="https://google.de" target="_blank" class="google-link">link zu google</a>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <button style="background-color: rgb(99, 169, 88); color: white;" onclick="printDatalayer()">SHOW DATA
+            LAYER</button>
+        <button style="background-color: rgb(202, 163, 100); color: white;" onclick="console.clear()">
+            CLEAR CONSOLE
+        </button>
+        <button style="margin-left: 300px; background-color: rgb(202, 100, 100); color: white;"
+            onclick="clearCookies()">
+            CLEAR COOKIES
+        </button>
+    </div>
+
+    <!-- http://localhost:8083 -->
+
+    <div style="margin-top: 30px;">
+        <a href="#" data-cc="c-settings">Cookie-Einstellungen ändern</a>
+    </div>
+
+    <script defer
+        src="https://app.cockpit.legal/static/cookieconsent-v2.js?tools=Google%20Tag%20Manager,Google%20Analytics,Vimeo"
+        data-cc-tools="Google Tag Manager,Google Analytics,Vimeo" data-cc-privacy="https://" data-cc-imprint="https://"
+        data-cc-color="" data-cc-theme="browser" data-cc-language="browser" data-cc-non-eu-consent="false">
+        </script>
+
+</body>
+
+</html>
